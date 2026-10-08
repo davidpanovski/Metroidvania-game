@@ -194,6 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   heartsParent: {fileID: 5686666239682691294}
   heartsContainerPrefab: {fileID: 2120821532250748041, guid: 724c21badafcac541b1b3ed83de769e6, type: 3}
+  manaFill: {fileID: 902154948447902117}
 --- !u!1 &8298612969788019377
 GameObject:
   m_ObjectHideFlags: 0

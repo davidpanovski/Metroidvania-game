@@ -108,35 +108,39 @@ public class PlayerController : MonoBehaviour
         {
             Instance = this;
         }
+        DontDestroyOnLoad(gameObject);  
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
         pState = GetComponent<PlayerStatesList>();// referencirame player states
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>(); 
+        
+        
         anim = GetComponent<Animator>();
         gravity = rb.gravityScale;
         sr=GetComponent<SpriteRenderer>();
 
         Health = maxHealth ;
         Mana = mana ;
-        manaStorage.fillAmount = Mana;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (pState.cutscene) return;
         GetInputs();// sakame inputsot da ni se updateiraat na sekoj frame
         UpdateJumpVariables();
+        RestoreTimeScale();
         if (pState.dashing) return;
         Flip();
         Move();
         Jump();
         StartDash();
         Attack();
-        RestoreTimeScale();
+        
         FlashWhileInvincble();
         Heal();
         CAstSpell();
@@ -148,9 +152,28 @@ public class PlayerController : MonoBehaviour
         Recoil();
     }
 
-   
 
 
+    public IEnumerator WalkIntoNewScene(Vector2 _exitDir, float _delay)
+    {
+        //if i want to make it upwards
+        if (_exitDir.y>0)
+        {
+            rb.linearVelocity = jumpForce * _exitDir;
+        }
+
+        //if exit dir requires horizntal movement
+        if (_exitDir.x != 0)
+        {
+            xAxis = _exitDir.x > 0 ? 1 : -1;
+
+            Move();
+        }
+        Flip();
+        yield return new WaitForSeconds(_delay);
+        pState.cutscene = false;
+
+    }
     void CAstSpell()
     {
         if (Keyboard.current.fKey.wasPressedThisFrame && timeSinceCast >= -timeBetweenCast && Mana >= manaSpellCost)
@@ -203,15 +226,22 @@ public class PlayerController : MonoBehaviour
 
         set { if (mana != value) { 
                 mana=Mathf.Clamp(value, 0, 1);
-                manaStorage.fillAmount = Mana;
+                if (manaStorage!=null) {
+                manaStorage.fillAmount = Mana;}
             } 
         }
     }
-    
-    
-    
-    
-    
+
+    public void BindManaUI(Image newManaStorage)
+    {
+        manaStorage = newManaStorage;
+
+        if (manaStorage != null)
+        {
+            manaStorage.fillAmount = mana;
+        }
+    }
+
     void Heal()
     {
         if (Mouse.current.rightButton.isPressed && maxHealth > Health && Mana>0 && !pState.jumping && !pState.dashing)
@@ -396,8 +426,9 @@ public class PlayerController : MonoBehaviour
         canDAsh = false;
         pState.dashing = true;
         anim.SetTrigger("Dashing");
+        int _dir = pState.lookingRight ? 1 : -1;
         rb.gravityScale = 0; // ja trgame gravitacijata na strana se so cel da igrachot mozhe horizontalno da se dvizhi bez da pagja nadole
-        rb.linearVelocity = new Vector2(transform.localScale.x * dashSpeed, 0);
+        rb.linearVelocity = new Vector2(_dir * dashSpeed, 0);
         if (isGrounded()) Instantiate(dashEffect, transform);//?
         yield return new WaitForSeconds(dashTime);
         rb.gravityScale = gravity;
@@ -425,31 +456,25 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
 
-        if (Keyboard.current.wKey.wasReleasedThisFrame && rb.linearVelocity.y > 0) //ako pustis kopce za skokanje dodeka se dvizhis nagore pagjas 
+        if (Keyboard.current.wKey.wasReleasedThisFrame && rb.linearVelocity.y > 3) //ako pustis kopce za skokanje dodeka se dvizhis nagore pagjas 
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
             pState.jumping = false;// koga go pusta kopceto stanuva false
         }
-        if (!pState.jumping)
-
-        {//ako ne skoka i imame seuste frames vo counterot toa znaci deka e kliknato kopce prethodno i mu davame da se ispolni vo frameot
-         //koga igrachot povtorno pagja na zemja
-
-            if (jumpBufferCounter > 0 && coyoteTimeCounter > 0) // dokolku kliknes skokas
-            {
-                rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce);
-                pState.jumping = true;
-
-            }
-            else if (!isGrounded() && airJumpsCounter < maxAirJumps && Keyboard.current.wKey.wasPressedThisFrame)
-            {
-                pState.jumping = true;
-                airJumpsCounter++;
-                rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce);
-            }
+        //ako ne skoka i imame seuste frames vo counterot toa znaci deka e kliknato kopce prethodno i mu davame da se ispolni vo frameot
+        //koga igrachot povtorno pagja na zemja
+        if (jumpBufferCounter > 0 && coyoteTimeCounter > 0 && !pState.jumping) // dokolku kliknes skokas
+        {
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce);
+            pState.jumping = true;
 
         }
-
+        if (!isGrounded() && airJumpsCounter < maxAirJumps && Keyboard.current.wKey.wasPressedThisFrame)
+        {
+            pState.jumping = true;
+            airJumpsCounter++;
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce);
+        }
         anim.SetBool("Jumping", !isGrounded()); // sekogash koga chovekot e vo vozduh
     }
     void UpdateJumpVariables()

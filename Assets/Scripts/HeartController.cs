@@ -10,14 +10,24 @@ public class HeartController : MonoBehaviour
     private Image[] heartFills;
     public Transform heartsParent;
     public GameObject heartsContainerPrefab;
+    [SerializeField] private Image manaFill;
 
     void Start()
     {
         player = PlayerController.Instance;
-        heartContainers = new GameObject[PlayerController.Instance.maxHealth];
-        heartFills = new Image[PlayerController.Instance.maxHealth];
+        if (player == null)
+        {
+            Debug.LogError("HealthDisplay could not find the player.", this);
+            return;
+        }
+        player.BindManaUI(manaFill);
 
-        PlayerController.Instance.onHealthChangedCallback += UpdateHeartsHUD;
+
+
+    heartContainers = new GameObject[player.maxHealth];
+        heartFills = new Image[player.maxHealth];
+
+        player.onHealthChangedCallback += UpdateHeartsHUD;
         InstantiateHeartConatainers();
         UpdateHeartsHUD();
     }
@@ -76,4 +86,13 @@ public class HeartController : MonoBehaviour
         SetHeartContainers();
         SetFilledContainers();
     }
+
+    private void OnDestroy()
+    {
+        if (player != null)
+        {
+            player.onHealthChangedCallback -= UpdateHeartsHUD;
+        }
+    }
+
 }
