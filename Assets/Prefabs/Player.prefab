@@ -181,7 +181,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -2058192835
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: e70ab950968e2ef439f986ec395141c6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -297,9 +297,9 @@ MonoBehaviour:
   SideAttackTransform: {fileID: 5653010269465604096}
   UpAttackTransform: {fileID: 2300500929157023589}
   DownAttackTransform: {fileID: 3625339839832216867}
-  SideAttackArea: {x: 4.5, y: 3.5}
-  UpAttackArea: {x: 3.5, y: 4.5}
-  DownAttackArea: {x: -3.5, y: 4.5}
+  SideAttackArea: {x: 4, y: 3.5}
+  UpAttackArea: {x: 3.5, y: 4}
+  DownAttackArea: {x: 3.5, y: 4}
   attackableLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -364,6 +364,7 @@ MonoBehaviour:
   invincible: 0
   healing: 0
   casting: 0
+  cutscene: 0
 --- !u!1 &8678109156085748032
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public string transitionedFromScene;
 
+    public Vector2 respawn_point;
+
     private void Awake()
     {
         if(Instance!=null && Instance != this)

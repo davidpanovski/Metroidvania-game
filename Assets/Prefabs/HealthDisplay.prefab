@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 3949537470775569658}
   - component: {fileID: 7357429862882862868}
   - component: {fileID: 6225394460616504973}
+  - component: {fileID: 2572855617738614100}
   m_Layer: 5
   m_Name: HealthDisplay
   m_TagString: Untagged
@@ -195,6 +196,19 @@ MonoBehaviour:
   heartsParent: {fileID: 5686666239682691294}
   heartsContainerPrefab: {fileID: 2120821532250748041, guid: 724c21badafcac541b1b3ed83de769e6, type: 3}
   manaFill: {fileID: 902154948447902117}
+--- !u!114 &2572855617738614100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7651280841589875528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8618b1d9f9a35e74b96e6dfe4a16fa3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  sceneFader: {fileID: 0}
 --- !u!1 &8298612969788019377
 GameObject:
   m_ObjectHideFlags: 0

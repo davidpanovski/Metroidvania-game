@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class SceneFader : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    [SerializeField] private float fadeTime;
+    [SerializeField] public float fadeTime;
 
     private Image fadeOutUIimage;
     public enum FadeDirection
@@ -16,7 +16,7 @@ public class SceneFader : MonoBehaviour
     }
 
     
-    void Start()
+    void Awake()
     {
        fadeOutUIimage = GetComponent<Image>();   
     }
@@ -64,6 +64,7 @@ public class SceneFader : MonoBehaviour
 
     void SetColorImage(ref float _alpha ,  FadeDirection _fadeDirection)
     {
+
         fadeOutUIimage.color = new Color(fadeOutUIimage.color.r, fadeOutUIimage.color.g,fadeOutUIimage.color.b,_alpha);
         _alpha += Time.deltaTime * (1 / fadeTime) * (_fadeDirection == FadeDirection.Out ? -1 : 1);
     }

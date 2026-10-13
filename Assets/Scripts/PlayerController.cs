@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
 
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
 
     [Header("Horizontal movement settings")]
     [SerializeField] private float walkSpeed = 1; //brzina; [SerializeField se korsiti da ni izleze kako editble pole vo editorot] 
@@ -503,19 +503,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Hit(Transform _attackTransform, Vector2 _attackArea,ref bool _recoilDir,float _recoilStrenght)
+    private void Hit(Transform _attackTransform, Vector2 _attackArea,ref bool _recoilBool, Vector2 _recoilDir ,float _recoilStrenght)
     {
         Collider2D[] objectsToHit = Physics2D.OverlapBoxAll(_attackTransform.position, _attackArea, 0, attackableLayer);
         if (objectsToHit.Length > 0)
         {
-            Debug.Log("Hit");
-            _recoilDir = true;
+            _recoilBool = true;
+  
         }
         for (int i = 0; i < objectsToHit.Length; i++)
         {
             if (objectsToHit[i].GetComponent<Enemy>() != null)
             {
-                objectsToHit[i].GetComponent<Enemy>().EnemyHit(damage, (transform.position - objectsToHit[i].transform.position).normalized,_recoilStrenght);
+                objectsToHit[i].GetComponent<Enemy>().EnemyHit(damage, _recoilDir,_recoilStrenght);
                 if (objectsToHit[i].CompareTag("Enemy"))
                 {
                     Mana += manaGain;
@@ -543,19 +543,21 @@ public class PlayerController : MonoBehaviour
 
                 if (yAxis == 0 || yAxis < 0 && isGrounded())
                 {
-                    Hit(SideAttackTransform, SideAttackArea,ref pState.recoilingX,recoilYSpeed);//avtomtski pravi side attack ako e na zemja ili idle
+                int _side = pState.lookingRight ? 1 : -1;//koja strana da e recoilot 
+                
+                    Hit(SideAttackTransform, SideAttackArea,ref pState.recoilingX,Vector2.right*_side, recoilYSpeed);//avtomtski pravi side attack ako e na zemja ili idle
                     Instantiate(slashEffect, SideAttackTransform);
 
                 }
                 else if (yAxis > 0)
                 {
-                    Hit(UpAttackTransform, UpAttackArea, ref pState.recoilingY, recoilYSpeed); //ako igrachot drzhi W
+                    Hit(UpAttackTransform, UpAttackArea, ref pState.recoilingY,Vector2.up, recoilYSpeed); //ako igrachot drzhi W
                     SlashEffectAtAngle(slashEffect, 90, UpAttackTransform);
                 }
                 else if (yAxis < 0 && !isGrounded())
                {
-                    Hit(DownAttackTransform, DownAttackArea, ref pState.recoilingY, recoilYSpeed); //ako igrachot drzhi S
-                    SlashEffectAtAngle(slashEffect, -90, UpAttackTransform);
+                    Hit(DownAttackTransform, DownAttackArea, ref pState.recoilingY,Vector2.down, recoilYSpeed); //ako igrachot drzhi S
+                    SlashEffectAtAngle(slashEffect, -90, DownAttackTransform);
                 }
             }
         }
