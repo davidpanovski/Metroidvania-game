@@ -8,6 +8,7 @@ public class Charger : Enemy
     [SerializeField] private float chargeDuration;
     [SerializeField] private float jumpForce;
     [SerializeField] private LayerMask whatIsGround;
+    [SerializeField] private LayerMask sightMask;
 
     float timer;
 
@@ -17,6 +18,34 @@ public class Charger : Enemy
         ChangeState(EnemyStates.Charger_Idle);
         rb.gravityScale = 12f;
     }
+
+    protected override void Update()
+    {
+        base.Update();
+        if (!PlayerController.Instance.pState.alive)
+        {
+            ChangeState(EnemyStates.Charger_Idle);
+        }
+    }
+    /*    private void OnDrawGizmos()
+        {
+            float dir = transform.localScale.x > 0 ? 1f : -1f;
+
+            // SIGHT RAY (your original one): starts ledgeCheckX in front, length ledgeCheckX * 10
+            Vector3 sightStart = transform.position + Vector3.right * dir * ledgeCheckX;
+            Vector3 sightEnd = sightStart + Vector3.right * dir * ledgeCheckX * 10f;
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(sightStart, sightEnd);
+
+            // LEDGE CHECK: starts ledgeCheckX in front, goes down ledgeCheckY
+            Vector3 ledgeStart = transform.position + new Vector3(dir * ledgeCheckX, 0, 0);
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawLine(ledgeStart, ledgeStart + Vector3.down * ledgeCheckY);
+
+            // WALL CHECK: from his position forward, length ledgeCheckX
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawLine(transform.position, transform.position + Vector3.right * dir * ledgeCheckX);
+        }*/
 
     protected override void UpdateEnemyStates()
     {
@@ -63,18 +92,24 @@ public class Charger : Enemy
 
                 bool playerInFront =
                     (player.transform.position.x - transform.position.x) * direction > 0f;
-
+                
+                
+               
                 RaycastHit2D _hit = Physics2D.Raycast(
                     transform.position + Vector3.right * direction * ledgeCheckX,
                     Vector2.right * direction,
-                    ledgeCheckX * 10f
+                    ledgeCheckX * 10f, LayerMask.GetMask("Attackable")
                 );
-
-                if (playerInFront &&
-                    _hit.collider != null &&
-                    _hit.collider.CompareTag("Player"))
+                if (_hit.collider != null)
                 {
-                    ChangeState(EnemyStates.Charger_Suprised);
+                    
+
+                    if (playerInFront && _hit.collider.CompareTag("Player"))
+                    {
+                        timer = 0f;
+                        ChangeState(EnemyStates.Charger_Suprised);
+                        
+                    }
                 }
 
                 if (transform.localScale.x > 0)
@@ -129,6 +164,20 @@ public class Charger : Enemy
                 }
 
                 break;
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+
+        Enemy otherEnemy = collision.collider.GetComponentInParent<Enemy>();
+
+        if (otherEnemy != null && otherEnemy != this)
+        {
+            Vector3 scale = transform.localScale;
+            scale.x *= -1f;
+            transform.localScale = scale;
+
+            
         }
     }
 

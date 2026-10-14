@@ -31,11 +31,22 @@ public class SceneTransitionScript : MonoBehaviour
 
         // Ignore doorways while walking into the new scene.
         if (player.pState.cutscene) return;
-
+        CheckShadeData();
         GameManager.Instance.transitionedFromScene =
             SceneManager.GetActiveScene().name;
 
         player.pState.cutscene = true;
         StartCoroutine(UIManager.Instance.sceneFader.SadeAndLoadScene(SceneFader.FadeDirection.In,transitionTo));
+    }
+    void CheckShadeData()
+    {
+        GameObject[] enemyObjects = GameObject.FindGameObjectsWithTag("Enemy");
+        for (int i = 0; i < enemyObjects.Length; i++)
+        {
+            if (enemyObjects[i].GetComponent<Shade>()!=null)
+            {
+                SaveData.Instance.SaveShadeData();
+            }
+        }
     }
 }

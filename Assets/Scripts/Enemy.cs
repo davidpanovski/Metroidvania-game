@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     protected Rigidbody2D rb;
     protected SpriteRenderer sr;
     protected Animator anim;
+    protected AudioSource audioSource;
 
     protected enum EnemyStates
     {
@@ -30,10 +31,17 @@ public class Enemy : MonoBehaviour
         Bat_Stunned,
         Bat_Death,
 
-        //
+        //Charger
         Charger_Idle,
         Charger_Suprised,
-        Charger_Charge
+        Charger_Charge,
+
+        //Shade
+        Shade_Idle,
+        Shade_Chase,
+        Shade_Stunned,
+        Shade_Death
+
 
     }
     protected EnemyStates currentEnemyState;
@@ -44,7 +52,8 @@ public class Enemy : MonoBehaviour
         
         player = PlayerController.Instance;
         sr=GetComponent<SpriteRenderer>();
-        anim = GetComponent<Animator>();    
+        anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();    
     }
 
 
@@ -52,8 +61,11 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        
-        
+
+        if (GameManager.Instance.GameIsPaused)
+        {
+            return;
+        }
 
         if (isRecoiling)
         {
@@ -100,7 +112,10 @@ public class Enemy : MonoBehaviour
         {
             
             Attack();
-            PlayerController.Instance.HitStopTime(0, 5, 0.5f);
+            if (PlayerController.Instance.pState.alive)
+            {
+                PlayerController.Instance.HitStopTime(0, 5, 0.5f);
+            }
         }
     }
 

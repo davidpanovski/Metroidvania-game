@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6740299714192273879}
   - component: {fileID: 5931038526286905955}
+  - component: {fileID: 1371026823914440483}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -45,3 +46,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   transitionedFromScene: 
+  respawn_point: {x: 0, y: 0}
+  benchRespawnPoint: {x: 0, y: 0}
+  bench: {fileID: 295095355050403916, guid: 4df8a7cc1d0ab744c90e3883ab785e16, type: 3}
+  shade: {fileID: 7895666550955171412, guid: 9c4ba849cfa2a0c4390bff3406b7a577, type: 3}
+  pauseMenu: {fileID: 0}
+  fadeTIme: 0
+  GameIsPaused: 0
+--- !u!114 &1371026823914440483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4224667311960173898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4483e2a391863144ba7f56bf16f813a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestroyInMainMenu

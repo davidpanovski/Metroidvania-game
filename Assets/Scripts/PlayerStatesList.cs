@@ -11,6 +11,7 @@ public class PlayerStatesList : MonoBehaviour // prati vo koja sostajba se naogj
     public bool healing=false;
     public bool casting = false;
     public bool cutscene=false;
+    public bool alive;
 
 
 }

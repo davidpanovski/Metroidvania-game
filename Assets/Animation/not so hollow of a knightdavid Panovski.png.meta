@@ -1,0 +1,364 @@
+fileFormatVersion: 2
+guid: 1ffc314c18fdcc24ba5187f06274c7bb
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1666011294832917917
+    second: not so hollow of a knightdavid Panovski_0
+  - first:
+      213: -6248124357771803849
+    second: not so hollow of a knightdavid Panovski_1
+  - first:
+      213: -3630089234651802163
+    second: not so hollow of a knightdavid Panovski_2
+  - first:
+      213: -4779698461011787441
+    second: not so hollow of a knightdavid Panovski_3
+  - first:
+      213: -6222424751309338248
+    second: not so hollow of a knightdavid Panovski_4
+  - first:
+      213: -7712586841310701880
+    second: not so hollow of a knightdavid Panovski_5
+  - first:
+      213: -8912646408937474167
+    second: not so hollow of a knightdavid Panovski_6
+  - first:
+      213: -8745631730904089333
+    second: not so hollow of a knightdavid Panovski_7
+  - first:
+      213: 4257418138236751385
+    second: not so hollow of a knightdavid Panovski_8
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: not so hollow of a knightdavid Panovski_0
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 292
+        width: 207
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36202b3ed8321e8e0800000000000000
+      internalID: -1666011294832917917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: not so hollow of a knightdavid Panovski_1
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 398
+        width: 716
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 733cb8620043a49a0800000000000000
+      internalID: -6248124357771803849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: not so hollow of a knightdavid Panovski_2
+      rect:
+        serializedVersion: 2
+        x: 1222
+        y: 405
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc51c99f2155f9dc0800000000000000
+      internalID: -3630089234651802163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: not so hollow of a knightdavid Panovski_3
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 292
+        width: 118
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4149e9d2991badb0800000000000000
+      internalID: -4779698461011787441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: not so hollow of a knightdavid Panovski_4
+      rect:
+        serializedVersion: 2
+        x: 345
+        y: 292
+        width: 370
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 879cb9018a185a9a0800000000000000
+      internalID: -6222424751309338248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: not so hollow of a knightdavid Panovski_5
+      rect:
+        serializedVersion: 2
+        x: 715
+        y: 292
+        width: 122
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c6d250812367f490800000000000000
+      internalID: -7712586841310701880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: not so hollow of a knightdavid Panovski_6
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 293
+        width: 77
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 987fe92ff4bef4480800000000000000
+      internalID: -8912646408937474167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: not so hollow of a knightdavid Panovski_7
+      rect:
+        serializedVersion: 2
+        x: 913
+        y: 292
+        width: 342
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0db31fe64641a680800000000000000
+      internalID: -8745631730904089333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: not so hollow of a knightdavid Panovski_8
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 30
+        width: 1097
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91e08ed6d33651b30800000000000000
+      internalID: 4257418138236751385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      not so hollow of a knightdavid Panovski_0: -1666011294832917917
+      not so hollow of a knightdavid Panovski_1: -6248124357771803849
+      not so hollow of a knightdavid Panovski_2: -3630089234651802163
+      not so hollow of a knightdavid Panovski_3: -4779698461011787441
+      not so hollow of a knightdavid Panovski_4: -6222424751309338248
+      not so hollow of a knightdavid Panovski_5: -7712586841310701880
+      not so hollow of a knightdavid Panovski_6: -8912646408937474167
+      not so hollow of a knightdavid Panovski_7: -8745631730904089333
+      not so hollow of a knightdavid Panovski_8: 4257418138236751385
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

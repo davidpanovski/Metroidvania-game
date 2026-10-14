@@ -12,6 +12,28 @@ public class Bat : Enemy
         base.Start();
         ChangeState(EnemyStates.Bat_Idle);
     }
+    protected override void Update()
+    {
+        base.Update();
+        if (!PlayerController.Instance.pState.alive)
+        {
+            ChangeState(EnemyStates.Bat_Idle);
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+
+        Enemy otherEnemy = collision.collider.GetComponentInParent<Enemy>();
+
+        if (otherEnemy != null && otherEnemy != this)
+        {
+            Vector3 scale = transform.localScale;
+            scale.x *= -1f;
+            transform.localScale = scale;
+
+
+        }
+    }
 
     protected override void UpdateEnemyStates()
     {

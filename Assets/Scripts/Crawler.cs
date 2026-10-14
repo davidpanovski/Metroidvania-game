@@ -19,8 +19,15 @@ public class Crawler : Enemy
         
     }
 
-   
-    
+    protected override void Update()
+    {
+        base.Update();
+        if (!PlayerController.Instance.pState.alive)
+        {
+            ChangeState(EnemyStates.Crawler_Idle);
+        }
+    }
+
 
     // Update is called once per frame
 
@@ -68,6 +75,20 @@ public class Crawler : Enemy
                 break;
         }
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
 
- 
+        Enemy otherEnemy = collision.collider.GetComponentInParent<Enemy>();
+
+        if (otherEnemy != null && otherEnemy != this)
+        {
+            Vector3 scale = transform.localScale;
+            scale.x *= -1f;
+            transform.localScale = scale;
+
+
+        }
+    }
+
+
 }

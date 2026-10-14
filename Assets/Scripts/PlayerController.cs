@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+
 public class PlayerController : MonoBehaviour
 {
 
@@ -78,16 +79,30 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float mana;
     [SerializeField] float manaDrainSpeed;
     [SerializeField] float manaGain;
+    public bool halfmana;
 
     [Header("Spell Settings")]
     [SerializeField] float manaSpellCost = 0.3f;
     [SerializeField] float timeBetweenCast = 0.5f;
     float timeSinceCast;
     [SerializeField] GameObject Fireball;
+
+
+    [Header("Audio")]
+    [SerializeField] AudioClip landingSound;
+    [SerializeField] AudioClip jumpSound;
+    [SerializeField] AudioClip dashAndAttackSound;
+    [SerializeField] AudioClip spellcastSound;
     
-    
+
+    public float playerfallSpeedTreshold = -10;
+    AudioSource playerAudioSource;
+
+
     bool restoreTime;
     float restoreTimeSpeed;
+
+    bool landingsoundplayed;
 
 
 
@@ -115,41 +130,112 @@ public class PlayerController : MonoBehaviour
     {
 
         pState = GetComponent<PlayerStatesList>();// referencirame player states
-        rb = GetComponent<Rigidbody2D>(); 
-        
-        
+        rb = GetComponent<Rigidbody2D>();
+
+        sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        playerAudioSource = GetComponent<AudioSource>();
         gravity = rb.gravityScale;
-        sr=GetComponent<SpriteRenderer>();
+        
+        
+        
 
         Health = maxHealth ;
+        manaStorage.fillAmount = Mana;
         Mana = mana ;
+
+        SaveData.Instance.LoadPlayerData();
+        if (halfmana)
+        {
+            UIManager.Instance.SwitchMana(UIManager.ManaState.HalfMana);
+        }
+        else
+        {
+            UIManager.Instance.SwitchMana(UIManager.ManaState.FullMana);
+        }
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.GameIsPaused)
+        {
+            return;
+        }
         if (pState.cutscene) return;
-        GetInputs();// sakame inputsot da ni se updateiraat na sekoj frame
+        if (pState.alive)
+        {
+            GetInputs();
+        }
+        // sakame inputsot da ni se updateiraat na sekoj frame
         UpdateJumpVariables();
+        UpdateCameraYDampForPlayer();
         RestoreTimeScale();
         if (pState.dashing) return;
-        Flip();
-        Move();
-        Jump();
-        StartDash();
-        Attack();
+        if (pState.alive) {
+            
+            
+            Heal();
+            if (pState.healing) return;
+            Flip();
+            Move();
+            Jump();
+            StartDash();
+            Attack();
+            
+            CAstSpell();
+        }
+        
         
         FlashWhileInvincble();
-        Heal();
-        CAstSpell();
+        
     }
 
     private void FixedUpdate()
     {
         if (pState.dashing) return;
         Recoil();
+    }
+
+    public void RestoreMana()
+    {
+        halfmana = false;
+        UIManager.Instance.SwitchMana(UIManager.ManaState.FullMana);
+    }
+
+    public void Respawn()
+    {
+        if (!pState.alive)
+        {
+            rb.constraints = RigidbodyConstraints2D.None;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            GetComponent<BoxCollider2D>().enabled = true;
+            pState.alive = true;
+            halfmana = true;
+            UIManager.Instance.SwitchMana(UIManager.ManaState.HalfMana);
+            Mana = 0;
+            Health = maxHealth;
+            anim.Play("knight_idle");
+        }
+    }
+
+    IEnumerator Death()
+    { 
+        pState.alive = false;
+        Time.timeScale = 1f;
+        GameObject _bloodSpurtParticles = Instantiate(BloodSpurt, transform.position, Quaternion.identity);
+        Destroy(_bloodSpurtParticles, 1.5f);
+        anim.SetTrigger("Death");
+        rb.constraints = RigidbodyConstraints2D.FreezePosition;
+        GetComponent<BoxCollider2D>().enabled = false;
+
+        yield return new WaitForSeconds(0.9f);
+        StartCoroutine(UIManager.Instance.ActivateDeathScreen());
+
+        yield return new WaitForSeconds(0.9f);
+        Instantiate(GameManager.Instance.shade,transform.position, Quaternion.identity);
+
     }
 
 
@@ -191,6 +277,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator CastCoroutine()
     {
+        playerAudioSource.PlayOneShot(spellcastSound);
         anim.SetBool("Casting", true);
         yield return new WaitForSeconds(0.1f);
 
@@ -220,14 +307,27 @@ public class PlayerController : MonoBehaviour
 
     
     
-    float Mana
+    public float Mana
     {
         get { return mana; }
 
-        set { if (mana != value) { 
-                mana=Mathf.Clamp(value, 0, 1);
-                if (manaStorage!=null) {
-                manaStorage.fillAmount = Mana;}
+        set { 
+            if (mana != value) 
+            {
+                if (!halfmana)
+                {
+                    mana = Mathf.Clamp(value, 0, 1);
+                    
+                }
+                else
+                {
+                    mana = Mathf.Clamp(value, 0, 0.5f);
+                }
+                
+                if (manaStorage != null)
+                {
+                    manaStorage.fillAmount = Mana;
+                }
             } 
         }
     }
@@ -355,8 +455,19 @@ public class PlayerController : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
-        Health -= Mathf.RoundToInt(damage);
-        StartCoroutine(StopTakingDamage());
+        if (pState.alive)
+        {
+            Health -= Mathf.RoundToInt(damage);
+            if (Health <= 0)
+            {
+                Health = 0;
+                StartCoroutine(Death());
+            }
+            else
+            {
+                StartCoroutine(StopTakingDamage());
+            }
+        }
         
     }
 
@@ -426,6 +537,7 @@ public class PlayerController : MonoBehaviour
         canDAsh = false;
         pState.dashing = true;
         anim.SetTrigger("Dashing");
+        playerAudioSource.PlayOneShot(dashAndAttackSound);
         int _dir = pState.lookingRight ? 1 : -1;
         rb.gravityScale = 0; // ja trgame gravitacijata na strana se so cel da igrachot mozhe horizontalno da se dvizhi bez da pagja nadole
         rb.linearVelocity = new Vector2(_dir * dashSpeed, 0);
@@ -458,6 +570,7 @@ public class PlayerController : MonoBehaviour
 
         if (Keyboard.current.wKey.wasReleasedThisFrame && rb.linearVelocity.y > 3) //ako pustis kopce za skokanje dodeka se dvizhis nagore pagjas 
         {
+            
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
             pState.jumping = false;// koga go pusta kopceto stanuva false
         }
@@ -465,12 +578,14 @@ public class PlayerController : MonoBehaviour
         //koga igrachot povtorno pagja na zemja
         if (jumpBufferCounter > 0 && coyoteTimeCounter > 0 && !pState.jumping) // dokolku kliknes skokas
         {
+            playerAudioSource.PlayOneShot(jumpSound);
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce);
             pState.jumping = true;
 
         }
         if (!isGrounded() && airJumpsCounter < maxAirJumps && Keyboard.current.wKey.wasPressedThisFrame)
         {
+            playerAudioSource.PlayOneShot(jumpSound);
             pState.jumping = true;
             airJumpsCounter++;
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce);
@@ -481,13 +596,19 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded())//ako e vekje na zemja go stavam false zs kje treba za vo jump funkcijata
         {
+            if (!landingsoundplayed)
+            {
+                playerAudioSource.PlayOneShot(landingSound);
+                landingsoundplayed = true;
+            }
             pState.jumping = false;
             coyoteTimeCounter = coyoteTime;
             airJumpsCounter = maxAirJumps;
         }
         else
         {
-            coyoteTimeCounter -= Time.deltaTime; //se namaluva bilo koga koga igrachot ne na platforma odnosno pagja, skoka etc
+            coyoteTimeCounter -= Time.deltaTime;
+            landingsoundplayed = false;//se namaluva bilo koga koga igrachot ne na platforma odnosno pagja, skoka etc
         }
 
         //koga kje se klikne kopceto se stava vo buffer i sekoj frame odzema eden
@@ -540,8 +661,9 @@ public class PlayerController : MonoBehaviour
             {
                 timeSinceAttack = 0;
                 anim.SetTrigger("Attacking");
+            playerAudioSource.PlayOneShot(dashAndAttackSound);
 
-                if (yAxis == 0 || yAxis < 0 && isGrounded())
+            if (yAxis == 0 || yAxis < 0 && isGrounded())
                 {
                 int _side = pState.lookingRight ? 1 : -1;//koja strana da e recoilot 
                 
@@ -630,10 +752,24 @@ public class PlayerController : MonoBehaviour
         {
             StopRecoilY();  
         }
-
-
-
     }
+
+    void UpdateCameraYDampForPlayer()
+    {
+        //if falling past a certain speed threshold
+        if (rb.linearVelocity.y < playerfallSpeedTreshold && !CameraManager.Instance.isLerpingYDamping && !CameraManager.Instance.hasLerpedYDamping)
+        {
+            StartCoroutine(CameraManager.Instance.LerpYDamping(true));
+        }
+        //if standing still or moving up
+        if (rb.linearVelocity.y >= 0 && !CameraManager.Instance.isLerpingYDamping && CameraManager.Instance.hasLerpedYDamping)
+        {
+            //reset camera function
+            CameraManager.Instance.hasLerpedYDamping = false;
+            StartCoroutine(CameraManager.Instance.LerpYDamping(false));
+        }
+    }
+
 
 
     }
