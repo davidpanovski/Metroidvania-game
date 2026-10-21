@@ -24,12 +24,12 @@ public class Spike : MonoBehaviour
 
     IEnumerator RespawnPoint()
     {
-        Debug.Log($"Player: {PlayerController.Instance != null}, " +
+        /*D*//*ebug.Log($"Player: {PlayerController.Instance != null}, " +
           $"pState: {PlayerController.Instance?.pState != null}, " +
           $"rb: {PlayerController.Instance?.rb != null}, " +
           $"UIManager: {UIManager.Instance != null}, " +
           $"sceneFader: {UIManager.Instance?.sceneFader != null}, " +
-          $"GameManager: {GameManager.Instance != null}");
+          $"GameManager: {GameManager.Instance != null}");*/
         PlayerController.Instance.pState.cutscene = true;
         PlayerController.Instance.pState.invincible = true;
         PlayerController.Instance.rb.linearVelocity = Vector2.zero;

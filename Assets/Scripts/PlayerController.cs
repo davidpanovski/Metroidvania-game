@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
     bool attack = false;
     [Header("Attacking")]
     [SerializeField] float damage;
-    float timeBetweenAttack, timeSinceAttack;//timeBetweenAttack = attack cooldown
+    float timeBetweenAttack=0.6f, timeSinceAttack;//timeBetweenAttack = attack cooldown
     [SerializeField] Transform SideAttackTransform, UpAttackTransform, DownAttackTransform;
     [SerializeField] Vector2 SideAttackArea, UpAttackArea, DownAttackArea;
     [SerializeField] LayerMask attackableLayer;

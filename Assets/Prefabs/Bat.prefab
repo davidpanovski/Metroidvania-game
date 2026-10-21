@@ -175,7 +175,7 @@ MonoBehaviour:
   recoilLength: 0.2
   recoilFactor: 0.1
   isRecoiling: 0
-  speed: 15
+  speed: 25
   damage: 1
   blood: {fileID: 2069582716171257005, guid: 53987f3e4dc2af94abda159b2be176ac, type: 3}
   chaseDistance: 15
