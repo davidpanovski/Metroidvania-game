@@ -24,4 +24,19 @@ Explore the caves, learn enemy attack patterns, and use movement and directional
 
 Visit benches as you progress. Press **V** when nearby to rest and save before continuing your journey.
 
-## Getting Started
+## Controls
+
+| Input | Action |
+| --- | --- |
+| A / D | Move left / right |
+| W | Jump |
+| C | Dash |
+| Left mouse button | Melee attack |
+| W / S + attack | Attack upward / downward (downward while airborne) |
+| F | Cast a fireball using mana |
+| Hold right mouse button | Heal using mana |
+| V near a bench | Rest and save |
+
+## Development Status
+
+This is an ongoing hobby project developed on the side. Features, levels, and balancing may change as development continues.
